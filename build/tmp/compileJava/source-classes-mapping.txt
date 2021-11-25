@@ -1,5 +1,5 @@
-WorkerAccount.java
- WorkerAccount
+TalkingToClient.java
+ TalkingToClient
 Clothes.java
  Clothes
 Main.java
@@ -10,7 +10,7 @@ Basket.java
  Basket
 Client.java
  Client
-TalkingToClient.java
- TalkingToClient
+WorkerAccount.java
+ WorkerAccount
 Worker.java
  Worker
