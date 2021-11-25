@@ -1,16 +1,24 @@
-TalkingToClient.java
- TalkingToClient
-Clothes.java
- Clothes
-Main.java
- Main
-ClientAccount.java
- ClientAccount
-Basket.java
- Basket
-Client.java
- Client
-WorkerAccount.java
- WorkerAccount
+ClothSize.java
+ ClothSize
+OrderStatus.java
+ OrderStatus
+Person.java
+ Person
+ClothFabric.java
+ ClothFabric
+ClothColor.java
+ ClothColor
 Worker.java
  Worker
+TalkingToClient.java
+ TalkingToClient
+Cloth.java
+ Cloth
+Basket.java
+ Basket
+Order.java
+ Order
+Main.java
+ Main
+Client.java
+ Client
