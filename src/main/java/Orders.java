@@ -5,11 +5,10 @@ public class Orders {
 
     List<String> ordersHistory = new ArrayList<>();
 
-    public void sale(boolean isProductAvailable, int amount, double price) {
+    public void sale(int amount, double price) {
 
-        if (isProductAvailable == false){
-            // lista z info dla pracownika co zamowic
-        }
+        // złożenie zamówienia
+
     }
 
 }
