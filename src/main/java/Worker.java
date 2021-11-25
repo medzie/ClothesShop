@@ -2,6 +2,7 @@ public class Worker extends Person{
 
     // zmiana ceny, artykułów, nazw, ilości
     //szyfrowanie haseł
+<<<<<<< Updated upstream
 
     String position, payment;
 
@@ -11,6 +12,8 @@ public class Worker extends Person{
         this.payment = payment;
         this.position = position;
     }
+=======
+>>>>>>> Stashed changes
 
     public String getPosition() {
         return position;
