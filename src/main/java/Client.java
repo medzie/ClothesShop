@@ -1,56 +1,65 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Client extends Person{
-    // koszyk
+public class Client extends Person {
 
-    String adress;
+    private Basket basket;
     List<Order> orders = new ArrayList<>();
 
     public Client(String name, String surname, String email, String password, int id, boolean admin) {
         super(name, surname, email, password, id, admin);
-        this.adress = adress;
     }
 
-    public String getAdress() {
-        return adress;
+    public Basket getBasket() {
+        return basket;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setBasket(Basket basket) {
+        this.basket = basket;
     }
 
-    /** przypisanie zamówienia do konta klienta
-      * @author Magdalena Woźniak & Yelizaveta Samartseva
-      * @param order - złożone zamówienie*/
-    public void placeOrder(Order order){
+    /**
+     * przypisanie zamówienia do konta klienta
+     *
+     * @param order - złożone zamówienie
+     * @author Magdalena Woźniak & Yelizaveta Samartseva
+     */
+    public void placeOrder(Order order) {
         orders.add(order);
     }
 
-    /** logowanie do konta użytkownika
+    /**
+     * logowanie do konta użytkownika
+     *
+     * @param email    - email użytkownika
+     * @param password - hasło konta użytkownika
      * @author Magdalena Woźniak & Yelizaveta Samartseva
-     * @param email - email użytkownika
-     * @param password - hasło konta użytkownika*/
-    public void login(String email,String password){
+     */
+    public void login(String email, String password) {
         // logowanie
     }
 
-    /** rejestracja użytkownika
+    /**
+     * rejestracja użytkownika
+     *
+     * @param email    - email użytkownika
+     * @param password - hasło konta użytkownika
      * @author Magdalena Woźniak & Yelizaveta Samartseva
-     * @param email - email użytkownika
-     * @param password - hasło konta użytkownika*/
-    public void register(String email,String password){
+     */
+    public void register(String email, String password) {
         // rejestracja
     }
 
-    /** wyświetlanie wszystkich zamówień danego użytkownika
-     * @author Magdalena Woźniak & Yelizaveta Samartseva*/
-    public void orders(){
+    /**
+     * wyświetlanie wszystkich zamówień danego użytkownika
+     *
+     * @author Magdalena Woźniak & Yelizaveta Samartseva
+     */
+    public void orders() {
 
         for (Order order : orders) {
             System.out.println(order);
         }
 
     }
-
 }
