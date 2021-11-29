@@ -3,9 +3,19 @@ import java.util.Scanner;
 public interface TalkingToClient {
 
     static void Welcome(){
-        System.out.println("Welcome in our clothes shop!\n" +
-                "Who are you looking for clothes for?\n" +
-                "| Woman | Man | Kid |");
+        System.out.println("Welcome in our clothes shop!\n" );
+/*                "Who are you looking for clothes for?\n" +
+                "| Woman | Man | Kid |");*/
+        System.out.println("1-Login \n2-Register \n");
+        Scanner scanner = new Scanner(System.in);
+        int option = scanner.nextInt();
+        switch(option){
+            case 1:
+                System.out.println("Login:");
+                System.out.println("Password:");
+                
+        }
+
     };
 
     static void GenderSelection(){

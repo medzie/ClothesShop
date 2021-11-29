@@ -5,7 +5,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //TalkingToClient.Welcome();
+        TalkingToClient.Welcome();
         //TalkingToClient.GenderSelection();
 
         Client client = new Client("Jadzia","Jagoda","jadzia@wp.pl","jadzia123",1,false); // tworzymy klienta
