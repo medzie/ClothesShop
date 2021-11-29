@@ -3,7 +3,7 @@ public class Worker extends Person{
     // zmiana ceny, artykułów, nazw, ilości
     //szyfrowanie haseł
 
-    String position, payment;
+    private String position, payment;
 
 
     public Worker(String name, String surname, String email, String password, int id, boolean admin) {
