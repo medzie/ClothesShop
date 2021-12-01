@@ -2,8 +2,8 @@ ClothSize.java
  ClothSize
 Order.java
  Order
-Main.java
- Main
+ClothFabric.java
+ ClothFabric
 Cloth.java
  Cloth
 ClothColor.java
@@ -12,13 +12,11 @@ Basket.java
  Basket
 OrderStatus.java
  OrderStatus
-Client.java
- Client
-TalkingToClient.java
- TalkingToClient
 Worker.java
  Worker
-ClothFabric.java
- ClothFabric
 Person.java
  Person
+Client.java
+ Client
+Main.java
+ Main

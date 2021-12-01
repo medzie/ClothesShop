@@ -1,15 +1,16 @@
 public class Person {
 
+    static int idCounter = 1;
     String name, surname, email, password;
     int id;
     boolean admin;
 
-    public Person(String name, String surname, String email, String password, int id, boolean admin) {
+    public Person(String name, String surname, String email, String password, boolean admin) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
-        this.id = id;
+        this.id = idCounter++;
         this.admin = admin;
     }
 
@@ -60,6 +61,5 @@ public class Person {
     public void setAdmin(boolean admin) {
         this.admin = admin;
     }
-
 
 }

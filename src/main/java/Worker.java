@@ -6,8 +6,8 @@ public class Worker extends Person{
     private String position, payment;
 
 
-    public Worker(String name, String surname, String email, String password, int id, boolean admin) {
-        super(name, surname, email, password, id, admin);
+    public Worker(String name, String surname, String email, String password, boolean admin) {
+        super(name, surname, email, password, admin);
         this.payment = payment;
         this.position = position;
     }

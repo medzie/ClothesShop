@@ -3,19 +3,6 @@ import java.util.List;
 
 public class Basket {
 
-    List<String> unavailableProductOrder = new ArrayList<>();
-
-    /** jeśli false, dodaje przedmiot do listy zamówień magazynowych
-      * @author Magdalena Woźniak & Yelizaveta Samartseva
-      * @param isProductAvailable - sprawdzanie dostępności produktu*/
-    public void productAvailable(boolean isProductAvailable){
-
-        if (!isProductAvailable){
-            // unavailableProductOrder.add(); dodać przedmioty do listy zamowien magazynowych
-        }
-
-    }
-
     List<Cloth> productsList = new ArrayList<>();
 
     /** dodanie produktu do koszyka
