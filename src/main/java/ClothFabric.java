@@ -1,3 +1,3 @@
 public enum ClothFabric {
-    cotton, polyester, wool, spandex, bioCotton, cashmere, viscose, silk, leather, ecoLeather;
+    cotton, polyester, wool, spandex, cashmere, viscose, silk, leather, ecoLeather;
 }

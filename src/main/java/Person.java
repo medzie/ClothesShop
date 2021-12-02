@@ -61,5 +61,4 @@ public class Person {
     public void setAdmin(boolean admin) {
         this.admin = admin;
     }
-
 }

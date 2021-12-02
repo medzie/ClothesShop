@@ -3,26 +3,17 @@ import java.util.List;
 
 public class Client extends Person {
 
-    private Basket basket;
+    public Basket basket = new Basket();
     List<Order> orders = new ArrayList<>();
 
     public Client(String name, String surname, String email, String password, boolean admin) {
         super(name, surname, email, password, admin);
     }
 
-    public Basket getBasket() {
-        return basket;
-    }
-
-    public void setBasket(Basket basket) {
-        this.basket = basket;
-    }
-
     /**
      * przypisanie zamówienia do konta klienta
-     *
      * @param order - złożone zamówienie
-     * @author Magdalena Woźniak & Yelizaveta Samartseva
+     * @author Magdalena Woźniak & Yelizaveta Samartsava
      */
     public void placeOrder(Order order) {
         orders.add(order);
@@ -30,8 +21,7 @@ public class Client extends Person {
 
     /**
      * wyświetlanie wszystkich zamówień danego użytkownika
-     *
-     * @author Magdalena Woźniak & Yelizaveta Samartseva
+     * @author Magdalena Woźniak & Yelizaveta Samartsava
      */
     public void orders() {
         for (Order order : orders) {
