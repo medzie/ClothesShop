@@ -32,7 +32,7 @@ public class Basket {
 
     @Override
     public String toString() {
-        StringBuilder productWithDescription = new StringBuilder();
+        StringBuilder productWithDescription = new StringBuilder(); // podobno mądre to zastosowałam
 
         for (int i = 0; i < productsList.size(); i++) {
             productWithDescription.append(i + 1); // + 1 bo nie ma produktu z numerem 0

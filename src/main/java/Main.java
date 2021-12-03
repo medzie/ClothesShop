@@ -12,15 +12,20 @@ public class Main {
     private static Client currentUser;
 
     public static void main(String[] args) {
+
         config();
 
         do {
-            welcome(); // panel logowania/rejestracji
-            if (currentUser == null) continue; // bardzo ważne!!! (inaczej niezalogowany wejdzie do sklepu)
+            welcome();
+            if (currentUser == null) continue;
             panel();
         } while (true);
     }
 
+    /**
+     * panel wyboru
+     * @author Magdalena Woźniak
+     */
     public static void panel(){
 
         int option = 0;
@@ -31,22 +36,27 @@ public class Main {
             if (!currentUser.admin) {
 
                 System.out.println("1 - realise order\n2 - show offer and add to basket\n3 - remove from basket\n" + "4 - show basket\n5 - exit");
-                option = scanner.nextInt();
+                try{
+                    option = scanner.nextInt();
+                }
+                catch (Exception wordNotNumber) {
+                    System.out.println("enter a Number please\n");
+                }
 
                 switch (option) {
                     case 1:
                         if (currentUser.basket.productsList.isEmpty()) {
                             System.out.println("Your basket is empty\n");
                         } else {
-                            currentUser.placeOrder(new Order(currentUser.basket, OrderStatus.inRealization)); // realizacja zamówienia klienta
+                            currentUser.placeOrder(new Order(currentUser.basket, OrderStatus.inRealization));
 
                             for (int i = 0; i < persons.size(); i++) {
                                 if (persons.get(i).getEmail().equals(currentUser.getEmail()))
-                                    persons.set(i, currentUser);
+                                    persons.set(i, currentUser); // przypisanie zamowienia do tego logowania chyba działa
                             }
                             System.out.println(currentUser.orders.get(currentUser.orders.size() - 1));
                             System.out.println("Your order is in realization, we will send the details to your e-mail");
-                            currentUser.basket.productsList.clear();
+                            // w tej linijce usuwaliśmy rzeczy z koszyka, ale wtedy nie działało
                         }
                         break;
                     case 2:
@@ -58,8 +68,14 @@ public class Main {
                             System.out.println("Your basket is empty\n");
                         } else {
                             System.out.println("Your basket: " + currentUser.basket + "\nWhat product you want to remove?");
-                            clothToDelete = scanner.nextInt() - 1;
-                            currentUser.basket.delete(currentUser.basket.productsList.remove(clothToDelete));
+
+                            try {
+                                clothToDelete = scanner.nextInt() - 1;
+                                currentUser.basket.delete(currentUser.basket.productsList.remove(clothToDelete));
+                            }
+                            catch (Exception wordNotNumber) {
+                                System.out.println("enter a Number please\n");
+                            }
                         }
                         break;
                     case 4:
@@ -75,43 +91,181 @@ public class Main {
                 }
             }
             else {
-                System.out.println("1 - orders\n2 - edit offer" + "\n5 - exit");
+                System.out.println("1 - orders\n2 - edit offer" + "\n3 - sexy naked woman" + "\n4 - size calculator" + "\n5 - exit");
                 option = scanner.nextInt();
 
                 switch (option) {
                     case 1:
                         for (int i = 0; i < persons.size(); i++) {
+                            System.out.print((i + 1) + ". ");
+                            System.out.println(persons.get(i).getEmail());
+
                             if (persons.get(i).orders.size() > 0) {
-                                System.out.print((i + 1) + ". ");
                                 persons.get(i).orders();
+                            } else {
+                                System.out.println("no orders");
                             }
                         }
 
                         System.out.println("Choose user, order id");
-                        int userId = scanner.nextInt();
-                        int orderId = scanner.nextInt();
+                        int userId = scanner.nextInt() - 1;
+                        int orderId = scanner.nextInt() - 1;
 
-                        // tutaj walidacja
-                        Order order = persons.get(userId).orders.get(orderId);
-                        System.out.println("Choose status: ");
+                        // walidacja
+                        if (userId < persons.size()) {
+                            if (orderId < persons.get(userId).orders.size()) {
+                                Order order = persons.get(userId).orders.get(orderId);
+                                System.out.println("Choose status: ");
 
+                                for (int i = 0; i < OrderStatus.values().length; i++) {
+                                    System.out.println((i + 1) + ". " + OrderStatus.values()[i]);
+                                }
 
-                        for (OrderStatus status : OrderStatus.values()) {
-                            System.out.println(status);
+                                int selected = scanner.nextInt() - 1;
+
+                                if (OrderStatus.values().length > selected) {
+                                    order.setStatus(OrderStatus.values()[selected]);
+                                    System.out.println("status: " + order.getStatus());
+                                } else {
+                                    System.out.println("unknown status");
+                                }
+                            } else {
+                                System.out.println("Unknown order");
+                            }
+                        } else {
+                            System.out.println("Unknown user");
                         }
-
-                        // sprawdz czy działa
-                        // dodać możliwość zmiany statusu zamówienia
                         break;
                     case 2:
-                        shop();
-                        // dodać możliwość edytowania ubrań
+                        System.out.println("Choose gender: (woman, man, kid)");
+                        String gender = scanner.next().toLowerCase();
+                        int clothId, price;
+
+                        if (gender.equals("woman")) {
+                            for (int i = 0; i < womanClothes.size(); i++) {
+                                System.out.println((i + 1) + ". " + womanClothes.get(i));
+                            }
+
+                            clothId = scanner.nextInt() - 1;
+
+                            if (womanClothes.size() > clothId) {
+                                System.out.println("Enter new prize: ");
+                                price = scanner.nextInt();
+                            }
+                            else return;
+
+                            if (price > 0)
+                                womanClothes.get(clothId).setPrice(price);
+
+                            System.out.println("New item data: " + womanClothes.get(clothId));
+                        }
+                        else if (gender.equals("man")) {
+                            for (int i = 0; i < manClothes.size(); i++) {
+                                System.out.println((i + 1) + ". " + manClothes.get(i));
+                            }
+
+                            clothId = scanner.nextInt() - 1;
+
+                            if (manClothes.size() > clothId) {
+                                System.out.println("Enter new prize: ");
+                                price = scanner.nextInt();
+                            }
+                            else return;
+
+                            if (price > 0)
+                                manClothes.get(clothId).setPrice(price);
+
+                            System.out.println("New item data: " + manClothes.get(clothId));
+                        }
+                        else if (gender.equals("kid")) {
+                            for (int i = 0; i < kidClothes.size(); i++) {
+                                System.out.println((i + 1) + ". " + kidClothes.get(i));
+                            }
+
+                            clothId = scanner.nextInt() - 1;
+
+                            if (kidClothes.size() > clothId) {
+                                System.out.println("Enter new prize: ");
+                                price = scanner.nextInt();
+                            }
+                            else return;
+
+                            if (price > 0)
+                                kidClothes.get(clothId).setPrice(price);
+
+                            System.out.println("New item data: " + kidClothes.get(clothId));
+                        } else {
+                            System.out.println("This gender doesn't exists");
+                            return;
+                        }
                         break;
                     case 3:
-                        // dodac cos zeby bylo 5 case bo while jest do 5 XD
+                        System.out.println("                _____    ____\n" +
+                                "             .#########.#######..\n" +
+                                "          .#######################.\n" +
+                                "        .############################.\n" +
+                                "       .################################.\n" +
+                                "      .#########,##,#####################.\n" +
+                                "     .#########-#,'########## ############.\n" +
+                                "    .######'#-##' # ##'### #. `####:#######.\n" +
+                                "    #####:'# #'###,##' # # +#. `###:':######\n" +
+                                "   .####,'###,##  ###  # # #`#. -####`######.\n" +
+                                "  .####+.' ,'#  ##' #   # # #`#`.`#####::####\n" +
+                                "  ####'    #  '##'  #   #_'# #.## `#######;##\n" +
+                                "  #:##'      '       #   # ``..__# `#######:#\n" +
+                                "  #:##'  .#######s.   #.  .s######.\\`#####:##\n" +
+                                "  #:##   .\"______\"\"'    '\"\"_____\"\". `.#####:#\n" +
+                                " .#:##   ><'(##)'> )    ( <'(##)`><   `####;#\n" +
+                                " ##:##  , , -==-' '.    .` `-==- . \\  ######'\n" +
+                                " #|-'| / /      ,  :    : ,       \\ ` :####:'\n" +
+                                " :#  |: '  '   /  .     .  .  `    `  |`####\n" +
+                                " #|  :|   /   '  '       `  \\   . ,   :  #:# \n" +
+                                " #L. | | ,  /   `.-._ _.-.'   .  \\ \\  : ) J##\n" +
+                                "###\\ `  /  '                   \\  : : |  /##\n" +
+                                " ## #|.:: '       _    _        ` | | |'####\n" +
+                                " #####|\\  |  (.-'.__`-'__.`-.)   :| ' ######\n" +
+                                " ######\\:      `-...___..-' '     :: /######\n" +
+                                " #######\\``.                   ,'|  /#######\n" +
+                                ".# ######\\  \\       ___       / /' /#######\n" +
+                                "# #'#####|\\  \\    -     -    /  ,'|### #. #.\n" +
+                                "`#  #####| '-.`             ' ,-'  |### #  #\n" +
+                                "    #' `#|    '._         ,.-'     #`#`#.\n" +
+                                "         |       .'------' :       |#   #\n" +
+                                "         |       :         :       |\n" +
+                                "         |       :         :       |\n" +
+                                "                 :         :            \n" +
+                                "            You're really stupid.          ");
                         break;
                     case 4:
-                        // dodac cos zeby bylo 5 case bo while jest do 5 XD
+                        try {
+                            System.out.println("your weight in kg: ");
+                            int weight = scanner.nextInt();
+
+                            if(weight <= 50 && weight >= 40){
+                                System.out.println("your size is XS\n");
+                            }
+                            else if(weight <= 55 && weight > 50){
+                                System.out.println("your size is S\n");
+                            }
+                            else if(weight <= 60 && weight > 55){
+                                System.out.println("your size is M\n");
+                            }
+                            else if(weight <= 65 && weight > 60){
+                                System.out.println("your size is L\n");
+                            }
+                            else if(weight <= 80 && weight > 65){
+                                System.out.println("your size is XL\n");
+                            }
+                            else if(weight <= 100 && weight > 80){
+                                System.out.println("your size is XXL\n");
+                            }
+                            else{
+                                System.out.println("how are you still alive?\n");
+                            }
+
+                        }  catch (Exception wordNotNumber) {
+                            System.out.println("enter a Number please");
+                        }
                         break;
                     case 5:
                         System.out.println("See you later!\n");
@@ -122,6 +276,10 @@ public class Main {
         } while (option != 5);
     }
 
+    /**
+     * konfiguracja ubrań oraz testowych użytkowników
+     * @author Magdalena Woźniak & Yelizaveta Samartsava
+     */
     public static void config() {
         persons.add(new Client("Jadzia","Styrta","jadzia@client.pl","123",false));
         persons.add(new Client("Jadzia","Styrta","jadzia@admin.pl","123",true));
@@ -176,64 +334,64 @@ public class Main {
 
     }
 
+    /**
+     * panel logowania i rejestracji
+     * @author Magdalena Woźniak & Yelizaveta Samartsava
+     */
     public static void welcome(){
         Scanner scanner = new Scanner(System.in);
         String login, password, name, surname;
         int option;
 
-        do{
-            System.out.println("Welcome in our clothes shop!\n1-Login \n2-Register");
+            try{
+                do{
+                    System.out.println("Welcome in our clothes shop!\n1-Login \n2-Register");
+                option = scanner.nextInt();
+                switch(option){
+                    case 1:
+                        System.out.print("Email: ");
+                        login = scanner.next();
+                        System.out.print("Password: ");
+                        password = scanner.next();
 
-            option = scanner.nextInt();
+                        currentUser = login(login,password);
+                        break;
+                    case 2:
+                        System.out.print("Email: ");
+                        login = scanner.next();
+                        System.out.print("Create Password(min. 4 chars): ");
+                        password = scanner.next();
+                        System.out.print("Your name: ");
+                        name = scanner.next();
+                        System.out.print("Your surname: ");
+                        surname = scanner.next();
 
-            switch(option){
-                case 1:
-                    System.out.print("Email: ");
-                    login = scanner.next();
-                    System.out.print("Password: ");
-                    password = scanner.next();
-
-                    currentUser = login(login,password);
-                    break;
-                case 2:
-                    System.out.print("Email: ");
-                    login = scanner.next();
-                    System.out.print("Create Password(min. 4 chars): ");
-                    password = scanner.next();
-                    System.out.print("Your name: ");
-                    name = scanner.next();
-                    System.out.print("Your surname: ");
-                    surname = scanner.next();
-
-                    register(login, password, name, surname);
-                    break;
-                default:
-                    System.out.println("Bad number, try again!\n");
-                    break;
+                        register(login, password, name, surname);
+                        break;
+                    default:
+                        System.out.println("Bad number, try again!\n");
+                        break;
+                }
+                } while(option != 1 && option != 2);
             }
-
-         } while(option != 1 && option != 2);
+            catch (Exception wordNotNumber) {
+                System.out.println("enter a Number please");
+            }
 
     };
 
     /**
      * logowanie do konta użytkownika
-     *
      * @param login    - email użytkownika
      * @param password - hasło konta użytkownika
-     * @author Magdalena Woźniak & Yelizaveta Samartseva
+     * @author Magdalena Woźniak & Yelizaveta Samartsava
+     * @return dane użytkownika o ile taki istnieje w przeciwnym wypadku null
      */
     public static Client login(String login, String password){
 
-        /*
-        użytkownicy: jadzia, kaśka
-        1 przejście pętli - person = jadzia
-        2 przejście pętli - person = kaśka
-        */
         for (Client person : persons) { // persons - cała grupa, my chcemy 1 osobę dlatego pętla sprawdzająca każdego po kolei
             if (person.getEmail().equals(login) && person.getPassword().equals(password)){
                 System.out.println("\nWelcome\n");
-
                 return person;
             }
             else if(person.getEmail().equals(login) && !person.getPassword().equals(password)){
@@ -248,10 +406,12 @@ public class Main {
 
     /**
      * rejestracja użytkownika
-     *
      * @param login    - email użytkownika
      * @param password - hasło konta użytkownika
-     * @author Magdalena Woźniak & Yelizaveta Samartseva
+     * @param name - imię użytkownika
+     * @param surname - nazwisko użytkownika
+     * @author Magdalena Woźniak & Yelizaveta Samartsava
+     * @return błąd z informacją o istniejącym użytkowniku w przeciwnym wypadku walidacja danych, jeśli poprawna utworzenie konta, jeśli nie błąd
      */
     private static void register(String login, String password, String name, String surname){
 
@@ -264,23 +424,28 @@ public class Main {
 
         Pattern emailPattern = Pattern.compile("@.");
         Matcher emailMatcher = emailPattern.matcher(login);
-        Pattern namePattern = Pattern.compile("\\d+"); // chyba działa
+        Pattern namePattern = Pattern.compile("\\d+");
         Matcher nameMatcher = namePattern.matcher(name);
         Matcher surnameMatcher = namePattern.matcher(surname);
 
-        if(emailMatcher.find() && password.length() > 3 && !nameMatcher.find() && !surnameMatcher.find()){ // Jeżeli wszystkie dane są dobrze wpisane tworzymy nowego użytkownika i dodajemy do persons (persons.add)
+        if(emailMatcher.find() && password.length() > 3 && !nameMatcher.find() && !surnameMatcher.find()){
             Client person = new Client(name, surname, login, password, false);
             persons.add(person);
             currentUser = person;
             System.out.println("\nYou have successfully created an account! \nWelcome in our clothes shop!\n");
         }
         else{
-            System.out.println("\nWrong email or to short password or name/surname have numbers\n"); // oddzielic kazdy blad osobno!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            System.out.println("\nWrong email or to short password or name/surname have numbers\n");
             return;
         }
 
     }
 
+    /**
+     * wybór ubrań dla płci i przegląd pojedynczych sztuk
+     * @author Magdalena Woźniak & Yelizaveta Samartsava
+     * @return przypisanie płci do numeru ubrania, dodanie i wyświetlenie produktu w koszyku, w przeciwnym razie błąd o nieistniejącym produkcie
+     */
     private static void shop(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Who are you looking for clothes for?\n| Woman | Man | Kid |");
@@ -309,46 +474,58 @@ public class Main {
         }
 
         selectCloth(gender);
-        System.out.println(currentUser.basket); // pokazuje koszyk po dodaniu do koszyka
-    };
+        System.out.println(currentUser.basket);
+    }
 
+    /**
+     * wybór ubrań dla płci po id i przegląd pojedynczych sztuk
+     * @author Magdalena Woźniak & Yelizaveta Samartsava
+     * @param gender - płeć dla numerów ubrań
+     */
     private static void selectCloth(String gender) {
-        /* wybieranie ubrania po id*/
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Which one you want: ");
-        int clothId = scanner.nextInt() - 1; // -1 bo lista zaczyna się od 0 a wyświetlone produkty od 1
 
-        //switch po płci, potem sprawdzamy czy dany produkt istnieje (np. nr 16 nie istenieje!)
-        switch(gender) {
-            case "woman":
-                if(clothId >= 0 && clothId < womanClothes.size()) {
-                    System.out.println(womanClothes.get(clothId) + "\nDo you want to add this product to your basket?\n1 - yes\n2 - no");
-                    int option = scanner.nextInt();
-                    if (option == 1) {
-                        currentUser.basket.add(womanClothes.get(clothId));
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Which one you want: ");
+
+        try {
+            int clothId = scanner.nextInt() - 1;
+
+            switch(gender) {
+                case "woman":
+                    if(clothId >= 0 && clothId < womanClothes.size()) {
+                        System.out.println(womanClothes.get(clothId) + "\nDo you want to add this product to your basket?\n1 - yes\n2 - no");
+                        int option = scanner.nextInt();
+                        if (option == 1) {
+                            currentUser.basket.add(womanClothes.get(clothId));
+                        }
                     }
-                }
-                break;
-            case "man":
-                if(clothId >= 0 && clothId < manClothes.size()) {
-                    System.out.println(manClothes.get(clothId) + "\nDo you want to add this product to your basket?\n1 - yes\n2 - no");
-                    int option = scanner.nextInt();
-                    if (option == 1) {
-                        currentUser.basket.add(manClothes.get(clothId));
+                    break;
+                case "man":
+                    if(clothId >= 0 && clothId < manClothes.size()) {
+                        System.out.println(manClothes.get(clothId) + "\nDo you want to add this product to your basket?\n1 - yes\n2 - no");
+                        int option = scanner.nextInt();
+                        if (option == 1) {
+                            currentUser.basket.add(manClothes.get(clothId));
+                        }
                     }
-                }
-                break;
-            case "kid":
-                if(clothId >= 0 && clothId < kidClothes.size()){
-                    System.out.println(kidClothes.get(clothId) + "\nDo you want to add this product to your basket?\n1 - yes\n2 - no");
-                    int option = scanner.nextInt();
-                    if (option == 1) {
-                        currentUser.basket.add(kidClothes.get(clothId));
-                }
+                    break;
+                case "kid":
+                    if(clothId >= 0 && clothId < kidClothes.size()){
+                        System.out.println(kidClothes.get(clothId) + "\nDo you want to add this product to your basket?\n1 - yes\n2 - no");
+                        int option = scanner.nextInt();
+                        if (option == 1) {
+                            currentUser.basket.add(kidClothes.get(clothId));
+                        }
+                    }
+                    break;
+                default:
+                    System.out.println("only 2 genders exists + kids as animals");
             }
-                break;
-            default:
-                System.out.println("only 2 genders exists + kids as animals");
         }
+        catch (Exception wordNotNumber) {
+            System.out.println("enter a Number please\n");
+        }
+
     }
 }

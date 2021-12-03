@@ -2,8 +2,8 @@ ClothSize.java
  ClothSize
 Order.java
  Order
-Main.java
- Main
+Person.java
+ Person
 Cloth.java
  Cloth
 ClothColor.java
@@ -16,5 +16,5 @@ Client.java
  Client
 ClothFabric.java
  ClothFabric
-Person.java
- Person
+Main.java
+ Main
